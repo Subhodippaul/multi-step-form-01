@@ -10,7 +10,7 @@ export const personalInfoSchema = z.object({
 export const professinalInfoSchema = z.object({
   company: z.string().min(2, "Company name must be at least 2 characters"),
   position: z.string().min(2, "Position must be at least 2 characters"),
-  experience: z.number().min(0, "Experience must be a positive number"),
+  experience: z.string().min(0, "Experience must be a positive number"),
   industry: z.string().min(2, "Industry must be at least 2 characters"),
 });
 

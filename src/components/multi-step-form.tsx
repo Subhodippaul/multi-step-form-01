@@ -17,6 +17,7 @@ import {
   BillingInfoStep,
   PersonaInfoStep,
   ProfessionalInfoStep,
+  SucessStep,
 } from "./steps";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -52,7 +53,23 @@ const MultiStepForm = () => {
     reset(formData as StepFormdata);
   }, [currentStep, formData, reset]);
 
-
+const onNext = async (data: StepFormdata) => {
+  const isValid = await trigger();
+  if (!isValid) return;
+  updateFormData({...formData,...data});
+  if (steps[currentStep].id === "sucess") {
+    try {
+      await submitForm({...formData,...data});
+      // alert("Form submitted successfully!");
+      // resetForm();
+      // reset();
+    } catch (error) {
+      alert("There was an error submitting the form.");
+    }
+  } else {
+    goToNextStep();
+  }
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
@@ -62,8 +79,9 @@ const MultiStepForm = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           {currentStep === 0 && <PersonaInfoStep register={register} errors={errors}/>}
-          {currentStep === 1 && <ProfessionalInfoStep />}
-          {currentStep === 2 && <BillingInfoStep />}
+          {currentStep === 1 && <ProfessionalInfoStep register={register} errors={errors} setValue={setValue}/>}
+          {currentStep === 2 && <BillingInfoStep register={register} errors={errors}/>}
+          {currentStep === 3 && <SucessStep />}
 
           <div className="flex justify-between pt-4">
             <Button
@@ -79,7 +97,7 @@ const MultiStepForm = () => {
             <Button
               type="button"
               variant="default"
-              onClick={goToNextStep}
+              onClick={handleSubmit(onNext)}
               className="mr-2"
             >
               {isLastStep ? "Finish" : "Next"}

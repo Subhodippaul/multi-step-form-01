@@ -5,7 +5,7 @@ import {
   type Step,
   type StepFormdata,
 } from "@/types";
-import { Briefcase, CreditCard, User } from "lucide-react";
+import { Briefcase, Check, CreditCard, User } from "lucide-react";
 import { useState } from "react";
 
 const stepSchemas = [
@@ -18,6 +18,7 @@ const steps: Step[] = [
   { id: "personal", name: "Personal Info", icon: User },
   { id: "professional", name: "Professional Info", icon: Briefcase },
   { id: "billing", name: "Billing Info", icon: CreditCard },
+  { id: "sucess", name: "Sucess Step", icon: Check }
 ];
 
 export function useMultiFormSteps() {
